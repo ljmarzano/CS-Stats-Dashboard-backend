@@ -1,8 +1,8 @@
 from selenium import webdriver
+from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-import time
 
 def download_report():
     # Configuración del navegador en Render (cabeza sin GUI)
@@ -11,8 +11,11 @@ def download_report():
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
 
-    # Iniciar ChromeDriver desde la ubicación actual
-    driver = webdriver.Chrome(executable_path="./chromedriver", options=options)
+    # Configurar el servicio para ChromeDriver
+    service = Service("./chromedriver")
+
+    # Iniciar ChromeDriver
+    driver = webdriver.Chrome(service=service, options=options)
 
     try:
         # PASO 1: Iniciar sesión en el backoffice
@@ -34,8 +37,7 @@ def download_report():
         )
 
         # PASO 3: Seleccionar empresas y fechas
-        # Ajusta estos pasos según las opciones específicas de tu menú desplegable y campos de fechas
-        print("Flujo completado con éxito.")
+        print("Automatización completada con éxito.")
     finally:
         # Cerrar el navegador
         driver.quit()
