@@ -11,8 +11,8 @@ def download_report():
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
 
-    # Iniciar ChromeDriver
-    driver = webdriver.Chrome(options=options)
+    # Iniciar ChromeDriver desde la ubicación actual
+    driver = webdriver.Chrome(executable_path="./chromedriver", options=options)
 
     try:
         # PASO 1: Iniciar sesión en el backoffice
