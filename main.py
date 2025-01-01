@@ -1,5 +1,6 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
+from selenium_automation import download_report
 import pandas as pd
 import io
 
@@ -45,3 +46,8 @@ def fetch_data():
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
+
+@app.get("/download-report")
+def download_report_endpoint():
+    download_report()
+    return {"message": "Reporte descargado con éxito"}
