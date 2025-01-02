@@ -1,10 +1,20 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from selenium_automation import download_report
 import pandas as pd
 import io
 
 app = FastAPI()
+
+# Habilitar CORS para permitir comunicación con el frontend
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],  # Origen permitido (frontend)
+    allow_credentials=True,
+    allow_methods=["*"],  # Métodos permitidos
+    allow_headers=["*"],  # Headers permitidos
+)
 
 # Simulated function to authenticate to the backoffice
 def authenticate_to_backoffice(email: str, password: str) -> bool:
