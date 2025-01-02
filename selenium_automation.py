@@ -22,12 +22,14 @@ def download_report():
     try:
         # PASO 1: Iniciar sesión en el backoffice
         driver.get("https://backoffice.rayapp.io/login")
-        WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.NAME, "email")))
+        WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.XPATH, "//input[@type='email']"))
+        )
 
         # Rellenar el formulario de inicio de sesión
-        driver.find_element(By.NAME, "email").send_keys("jim@rayapp.io")
-        driver.find_element(By.NAME, "password").send_keys("rayapp.io")
-        driver.find_element(By.TAG_NAME, "button").click()
+        driver.find_element(By.XPATH, "//input[@type='email']").send_keys("jim@rayapp.io")
+        driver.find_element(By.XPATH, "//input[@type='password']").send_keys("rayapp.io")
+        driver.find_element(By.XPATH, "//button[text()='Login']").click()
 
         # PASO 2: Navegar a métricas
         WebDriverWait(driver, 10).until(EC.url_contains("dashboard"))
@@ -40,6 +42,8 @@ def download_report():
 
         # PASO 3: Seleccionar empresas y fechas
         print("Automatización completada con éxito.")
+    except Exception as e:
+        print(f"Error en la automatización: {e}")
     finally:
         # Cerrar el navegador
         driver.quit()
