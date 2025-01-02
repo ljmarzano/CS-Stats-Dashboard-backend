@@ -4,8 +4,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-
-def download_report():
+def download_report(email, password):
     # Configuración del navegador en Docker
     options = webdriver.ChromeOptions()
     options.add_argument("--headless")  # Ejecutar en modo sin cabeza
@@ -27,8 +26,8 @@ def download_report():
         )
 
         # Rellenar el formulario de inicio de sesión
-        driver.find_element(By.XPATH, "//input[@type='email']").send_keys("jim@rayapp.io")
-        driver.find_element(By.XPATH, "//input[@type='password']").send_keys("rayapp.io")
+        driver.find_element(By.XPATH, "//input[@type='email']").send_keys(email)
+        driver.find_element(By.XPATH, "//input[@type='password']").send_keys(password)
         driver.find_element(By.XPATH, "//button[text()='Login']").click()
 
         # PASO 2: Navegar a métricas
