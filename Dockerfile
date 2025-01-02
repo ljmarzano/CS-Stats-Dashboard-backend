@@ -1,9 +1,15 @@
-# Utilizamos una imagen base que ya contiene Google Chrome y ChromeDriver
+# Utilizamos la imagen base preconfigurada con Chrome y ChromeDriver
 FROM selenium/standalone-chrome:114.0
 
-# Instalamos Python en esta imagen
+# Cambiar temporalmente al usuario root para instalar Python
+USER root
+
+# Instalamos Python y sus herramientas
 RUN apt-get update && apt-get install -y python3 python3-pip && \
     rm -rf /var/lib/apt/lists/*
+
+# Volver al usuario por defecto para mayor seguridad
+USER 1200
 
 # Establecemos el directorio de trabajo
 WORKDIR /app
