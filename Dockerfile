@@ -27,11 +27,10 @@ RUN curl -sSL https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor 
     apt-get update && apt-get install -y google-chrome-stable && \
     rm -rf /var/lib/apt/lists/*
 
-# Usar versión específica de ChromeDriver compatible con Chrome 131
-RUN CHROME_DRIVER_VERSION=$(curl -s https://chromedriver.storage.googleapis.com/LATEST_RELEASE_131) && \
-    wget https://chromedriver.storage.googleapis.com/${CHROME_DRIVER_VERSION}/chromedriver_linux64.zip && \
+# Instalar una versión específica de ChromeDriver compatible con Chrome 131
+RUN wget https://chromedriver.storage.googleapis.com/114.0.5735.90/chromedriver_linux64.zip && \
     unzip chromedriver_linux64.zip && \
-    mv chromedriver /usr/local/bin/ && \
+    mv chromedriver /usr/local/bin/chromedriver && \
     chmod +x /usr/local/bin/chromedriver && \
     rm chromedriver_linux64.zip
 
