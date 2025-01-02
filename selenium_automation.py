@@ -4,16 +4,17 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
+
 def download_report():
-    # Configuración del navegador en Render (sin GUI)
+    # Configuración del navegador en Docker
     options = webdriver.ChromeOptions()
     options.add_argument("--headless")  # Ejecutar en modo sin cabeza
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
-    options.binary_location = "/usr/bin/google-chrome"  # Ruta al binario de Chrome
+    options.binary_location = "/usr/bin/google-chrome"  # Ruta al binario de Chrome en Docker
 
-    # Configurar el servicio para ChromeDriver con la ruta absoluta
-    service = Service("/usr/local/bin/chromedriver")  # Asegurarse de usar la ubicación absoluta en Render
+    # Configurar el servicio para ChromeDriver
+    service = Service("/usr/local/bin/chromedriver")  # Ubicación en Docker
 
     # Iniciar ChromeDriver
     driver = webdriver.Chrome(service=service, options=options)
@@ -34,9 +35,7 @@ def download_report():
 
         # Esperar hasta que el texto cambie a "Todo bien. Proceda."
         WebDriverWait(driver, 30).until(
-            EC.text_to_be_present_in_element(
-                (By.XPATH, "//div[contains(text(), 'Control de mision')]"), "Todo bien. Proceda."
-            )
+            EC.text_to_be_present_in_element((By.XPATH, "//div[contains(text(), 'Control de mision')]"), "Todo bien. Proceda.")
         )
 
         # PASO 3: Seleccionar empresas y fechas
