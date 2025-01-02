@@ -27,14 +27,13 @@ RUN curl -sSL https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor 
     apt-get update && apt-get install -y google-chrome-stable && \
     rm -rf /var/lib/apt/lists/*
 
-# Descargar la última versión estable de ChromeDriver
-RUN wget https://chromedriver.storage.googleapis.com/LATEST_RELEASE -O LATEST_RELEASE && \
-    CHROME_DRIVER_VERSION=$(cat LATEST_RELEASE) && \
+# Usar versión específica de ChromeDriver compatible con Chrome 131
+RUN CHROME_DRIVER_VERSION=$(curl -s https://chromedriver.storage.googleapis.com/LATEST_RELEASE_131) && \
     wget https://chromedriver.storage.googleapis.com/${CHROME_DRIVER_VERSION}/chromedriver_linux64.zip && \
     unzip chromedriver_linux64.zip && \
     mv chromedriver /usr/local/bin/ && \
     chmod +x /usr/local/bin/chromedriver && \
-    rm chromedriver_linux64.zip LATEST_RELEASE
+    rm chromedriver_linux64.zip
 
 # Configurar el directorio de trabajo
 WORKDIR /app
