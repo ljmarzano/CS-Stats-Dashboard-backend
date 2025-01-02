@@ -13,7 +13,7 @@ def download_report():
     options.binary_location = "/usr/bin/google-chrome"  # Ruta al binario de Chrome
 
     # Configurar el servicio para ChromeDriver
-    service = Service("/usr/local/bin/chromedriver")
+    service = Service("./chromedriver")  # Aquí apunta a la ubicación del ejecutable
 
     # Iniciar ChromeDriver
     driver = webdriver.Chrome(service=service, options=options)
