@@ -21,19 +21,15 @@ RUN apt-get update && apt-get install -y \
     libasound2 && \
     rm -rf /var/lib/apt/lists/*
 
-# Instalar Google Chrome (última versión)
+# Instalar Google Chrome versión 114
 RUN curl -sSL https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor > /usr/share/keyrings/google-chrome-keyring.gpg && \
     echo "deb [arch=amd64 signed-by=/usr/share/keyrings/google-chrome-keyring.gpg] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list && \
     apt-get update && \
-    apt-get install -y google-chrome-stable && \
+    apt-get install -y google-chrome-stable=114.0.5735.90-1 && \
     rm -rf /var/lib/apt/lists/*
 
-# Descargar ChromeDriver correspondiente a la versión de Google Chrome instalada
-RUN CHROME_VERSION=$(google-chrome --version | awk '{print $3}' | cut -d '.' -f 1) && \
-    echo "Detectando versión de Google Chrome: $CHROME_VERSION" && \
-    CHROME_DRIVER_VERSION=$(curl -s https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION) && \
-    echo "Usando ChromeDriver versión: $CHROME_DRIVER_VERSION" && \
-    wget -O chromedriver_linux64.zip https://chromedriver.storage.googleapis.com/${CHROME_DRIVER_VERSION}/chromedriver_linux64.zip && \
+# Descargar y configurar ChromeDriver para Google Chrome 114
+RUN wget -O chromedriver_linux64.zip https://chromedriver.storage.googleapis.com/114.0.5735.90/chromedriver_linux64.zip && \
     unzip chromedriver_linux64.zip && \
     mv chromedriver /usr/local/bin/ && \
     chmod +x /usr/local/bin/chromedriver && \
