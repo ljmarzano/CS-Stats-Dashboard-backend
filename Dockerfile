@@ -1,8 +1,14 @@
 FROM selenium/standalone-chrome:114.0
 
+# Cambiar temporalmente a root
+USER root
+
 # Instalar Python y pip
 RUN apt-get update && apt-get install -y python3 python3-pip && \
     rm -rf /var/lib/apt/lists/*
+
+# Restaurar al usuario predeterminado de Selenium
+USER seluser
 
 # Establecer la carpeta de scripts locales en el PATH
 ENV PATH="/home/seluser/.local/bin:$PATH"
