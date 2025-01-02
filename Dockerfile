@@ -30,8 +30,10 @@ RUN curl -sSL https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor 
 
 # Descargar ChromeDriver correspondiente a la versión de Google Chrome instalada
 RUN CHROME_VERSION=$(google-chrome --version | awk '{print $3}' | cut -d '.' -f 1) && \
-    CHROME_DRIVER_VERSION=$(curl -s https://chromedriver.storage.googleapis.com/LATEST_RELEASE_${CHROME_VERSION}) && \
-    wget https://chromedriver.storage.googleapis.com/${CHROME_DRIVER_VERSION}/chromedriver_linux64.zip && \
+    echo "Detectando versión de Google Chrome: $CHROME_VERSION" && \
+    CHROME_DRIVER_VERSION=$(curl -s https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION) && \
+    echo "Usando ChromeDriver versión: $CHROME_DRIVER_VERSION" && \
+    wget -O chromedriver_linux64.zip https://chromedriver.storage.googleapis.com/${CHROME_DRIVER_VERSION}/chromedriver_linux64.zip && \
     unzip chromedriver_linux64.zip && \
     mv chromedriver /usr/local/bin/ && \
     chmod +x /usr/local/bin/chromedriver && \
