@@ -22,7 +22,12 @@ TEMPLE,Temple B,February 2023,210,85
 """
     return pd.read_csv(io.StringIO(csv_data))
 
+# Models for requests
 class LoginRequest(BaseModel):
+    email: str
+    password: str
+
+class DownloadReportRequest(BaseModel):
     email: str
     password: str
 
@@ -43,11 +48,15 @@ def fetch_data():
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error fetching data: {str(e)}")
 
+@app.post("/download-report")
+def download_report_endpoint(request: DownloadReportRequest):
+    try:
+        # Llamar a la función de Selenium con las credenciales proporcionadas
+        download_report(request.email, request.password)
+        return {"message": "Reporte descargado con éxito"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error ejecutando el reporte: {str(e)}")
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
-
-@app.get("/download-report")
-def download_report_endpoint():
-    download_report()
-    return {"message": "Reporte descargado con éxito"}
