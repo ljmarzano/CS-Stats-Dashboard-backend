@@ -1,12 +1,24 @@
-# Usar una imagen base de Python
+# Usar una imagen base ligera de Python
 FROM python:3.11-slim
 
-# Instalar dependencias necesarias
+# Instalar dependencias del sistema
 RUN apt-get update && apt-get install -y \
     wget \
     unzip \
     gnupg \
-    curl && \
+    curl \
+    libglib2.0-0 \
+    libnss3 \
+    libgconf-2-4 \
+    libfontconfig1 \
+    libx11-xcb1 \
+    libxcomposite1 \
+    libxcursor1 \
+    libxi6 \
+    libxtst6 \
+    libxrandr2 \
+    xdg-utils \
+    libasound2 && \
     rm -rf /var/lib/apt/lists/*
 
 # Instalar Google Chrome
@@ -15,12 +27,13 @@ RUN curl -sSL https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor 
     apt-get update && apt-get install -y google-chrome-stable && \
     rm -rf /var/lib/apt/lists/*
 
-# Descargar ChromeDriver
+# Descargar y configurar ChromeDriver
 RUN CHROMEDRIVER_VERSION=$(wget -qO- https://chromedriver.storage.googleapis.com/LATEST_RELEASE) && \
     wget https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip && \
     unzip chromedriver_linux64.zip && \
     mv chromedriver /usr/local/bin/ && \
-    chmod +x /usr/local/bin/chromedriver
+    chmod +x /usr/local/bin/chromedriver && \
+    rm chromedriver_linux64.zip
 
 # Configurar el directorio de trabajo
 WORKDIR /app

@@ -12,8 +12,8 @@ def download_report():
     options.add_argument("--disable-dev-shm-usage")
     options.binary_location = "/usr/bin/google-chrome"  # Ruta al binario de Chrome
 
-    # Configurar el servicio para ChromeDriver
-    service = Service("./chromedriver")  # Aquí apunta a la ubicación del ejecutable
+    # Configurar el servicio para ChromeDriver con la ruta absoluta
+    service = Service("/usr/local/bin/chromedriver")  # Asegurarse de usar la ubicación absoluta en Render
 
     # Iniciar ChromeDriver
     driver = webdriver.Chrome(service=service, options=options)
@@ -34,7 +34,9 @@ def download_report():
 
         # Esperar hasta que el texto cambie a "Todo bien. Proceda."
         WebDriverWait(driver, 30).until(
-            EC.text_to_be_present_in_element((By.XPATH, "//div[contains(text(), 'Control de mision')]"), "Todo bien. Proceda.")
+            EC.text_to_be_present_in_element(
+                (By.XPATH, "//div[contains(text(), 'Control de mision')]"), "Todo bien. Proceda."
+            )
         )
 
         # PASO 3: Seleccionar empresas y fechas
