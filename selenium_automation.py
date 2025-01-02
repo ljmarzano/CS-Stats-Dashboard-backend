@@ -7,13 +7,13 @@ from selenium.webdriver.support import expected_conditions as EC
 def download_report():
     # Configuración del navegador en Render (sin GUI)
     options = webdriver.ChromeOptions()
-    options.add_argument("--headless")  # Ejecutar en modo sin cabeza (sin ventana)
+    options.add_argument("--headless")  # Ejecutar en modo sin cabeza
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
-    options.binary_location = "/usr/bin/google-chrome"  # Ruta del binario de Chrome
+    options.binary_location = "/usr/bin/google-chrome"  # Ruta al binario de Chrome
 
     # Configurar el servicio para ChromeDriver
-    service = Service("./chromedriver")
+    service = Service("/usr/local/bin/chromedriver")
 
     # Iniciar ChromeDriver
     driver = webdriver.Chrome(service=service, options=options)
