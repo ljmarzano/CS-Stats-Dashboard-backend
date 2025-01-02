@@ -21,10 +21,11 @@ RUN apt-get update && apt-get install -y \
     libasound2 && \
     rm -rf /var/lib/apt/lists/*
 
-# Instalar Google Chrome
+# Instalar una versión específica de Google Chrome compatible con ChromeDriver 114
 RUN curl -sSL https://dl.google.com/linux/linux_signing_key.pub | gpg --dearmor > /usr/share/keyrings/google-chrome-keyring.gpg && \
     echo "deb [arch=amd64 signed-by=/usr/share/keyrings/google-chrome-keyring.gpg] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list && \
-    apt-get update && apt-get install -y google-chrome-stable && \
+    apt-get update && \
+    apt-get install -y google-chrome-stable=114.0.5735.90-1 && \
     rm -rf /var/lib/apt/lists/*
 
 # Instalar una versión específica de ChromeDriver compatible con Chrome 131
