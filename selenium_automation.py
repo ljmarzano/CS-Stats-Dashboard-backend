@@ -5,44 +5,30 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
 def download_report(email, password):
-    # Configuración del navegador en Docker
     options = webdriver.ChromeOptions()
     options.add_argument("--headless")  # Ejecutar en modo sin cabeza
     options.add_argument("--no-sandbox")
     options.add_argument("--disable-dev-shm-usage")
-    options.binary_location = "/usr/bin/google-chrome"  # Ruta al binario de Chrome en Docker
 
-    # Configurar el servicio para ChromeDriver
-    service = Service("/usr/local/bin/chromedriver")  # Ubicación en Docker
+    # Usa el servicio con ChromeDriver
+    service = Service("chromedriver")  # ChromeDriver ya está en el PATH
 
-    # Iniciar ChromeDriver
     driver = webdriver.Chrome(service=service, options=options)
-
     try:
-        # PASO 1: Iniciar sesión en el backoffice
+        print("Navegando al formulario de inicio de sesión...")
         driver.get("https://backoffice.rayapp.io/login")
         WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((By.XPATH, "//input[@type='email']"))
         )
-
-        # Rellenar el formulario de inicio de sesión
+        print("Formulario cargado correctamente")
         driver.find_element(By.XPATH, "//input[@type='email']").send_keys(email)
         driver.find_element(By.XPATH, "//input[@type='password']").send_keys(password)
         driver.find_element(By.XPATH, "//button[text()='Login']").click()
 
-        # PASO 2: Navegar a métricas
+        print("Esperando redirección al dashboard...")
         WebDriverWait(driver, 10).until(EC.url_contains("dashboard"))
-        driver.get("https://backoffice.rayapp.io/metrics")
-
-        # Esperar hasta que el texto cambie a "Todo bien. Proceda."
-        WebDriverWait(driver, 30).until(
-            EC.text_to_be_present_in_element((By.XPATH, "//div[contains(text(), 'Control de mision')]"), "Todo bien. Proceda.")
-        )
-
-        # PASO 3: Seleccionar empresas y fechas
-        print("Automatización completada con éxito.")
+        print("Redirigido al dashboard correctamente")
     except Exception as e:
         print(f"Error en la automatización: {e}")
     finally:
-        # Cerrar el navegador
         driver.quit()
